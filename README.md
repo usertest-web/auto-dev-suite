@@ -34,7 +34,9 @@ python app.py
 # 启动前端（需进入 frontend 目录）
 npm install
 npm run serve
+
 #后续计划
 毕业后持续迭代，目标打磨为可开源的通用模板，帮助零基础开发者快速上手 AI 辅助全栈开发。
+
 #致谢
 本项目开发过程中大量使用 Claude Code 进行代码生成、Bug 修复与架构优化。
