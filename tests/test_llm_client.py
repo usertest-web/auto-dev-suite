@@ -6,21 +6,21 @@ from src.llm_client import LLMClient, create_llm_client
 from src.config import Config, LLMConfig
 
 
-def test_create_claude_client():
+def test_create_claude_client(monkeypatch):
+    monkeypatch.setenv("TEST_KEY", "fake-key")
     config = Config(
         llm=LLMConfig(provider="claude", model="claude-sonnet-4-6", api_key_env="TEST_KEY")
     )
-    os.environ["TEST_KEY"] = "fake-key"
     client = create_llm_client(config)
     assert client.provider == "claude"
     assert client.model == "claude-sonnet-4-6"
 
 
-def test_create_openai_client():
+def test_create_openai_client(monkeypatch):
+    monkeypatch.setenv("TEST_KEY2", "fake-key")
     config = Config(
         llm=LLMConfig(provider="openai", model="gpt-4o", api_key_env="TEST_KEY2")
     )
-    os.environ["TEST_KEY2"] = "fake-key"
     client = create_llm_client(config)
     assert client.provider == "openai"
     assert client.model == "gpt-4o"

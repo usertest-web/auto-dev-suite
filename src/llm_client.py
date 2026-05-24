@@ -1,6 +1,5 @@
 # src/llm_client.py
 from dataclasses import dataclass
-from typing import Optional
 from src.config import Config
 
 
