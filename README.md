@@ -1,42 +1,56 @@
 # AI Dev Workbench
 
-基于 Claude Code + DeepSeek 驱动的个人全栈自动化工作台。本项目从零开始，完全由 AI 辅助编程完成，作为毕业设计《基于机器学习的网络入侵检测系统》的实践延伸。
+Claude Code + DeepSeek 驱动的自动化开发工作台，涵盖从机器学习到学术写作的 AI 辅助工具集。
 
-## 核心功能
+---
 
-- **智能代码脚手架**：一键生成 Flask + Vue 项目结构
-- **模型训练辅助**：自动调参、日志记录、性能评估
-- **文档与图表生成**：AI 辅助撰写技术文档、绘制架构图
-- **自动化测试**：批量生成单元测试用例
+## 项目一：学术论文自动化写作脚本
 
-## 技术栈
+> 6 阶段 Pipeline，输入标题和大纲，自动生成格式完整的本科毕业论文 `.docx`
 
-- 后端：Python / Flask / PyTorch
-- 前端：Vue.js
-- 模型：CNN-LSTM 混合网络（NSL-KDD 数据集）
-- AI 工具：Claude Code（长链推理，单次任务 40-60 轮迭代）
+用户只需提供论文标题和粗略大纲，脚本自动完成：模板解析 → 大纲细化 → 文献检索 → 逐章撰写 → Word 排版 → 格式校验。
 
-## 项目成果
+**技术栈：** pywin32 COM / python-docx / LLM API (Claude/OpenAI) / Semantic Scholar / GB/T 7714-2015
 
-- 模型测试集准确率：92%+
-- 完成前后端联调与可视化检测界面
-- 日均 AI Token 消耗：150-250 万（开发高峰期）
-
-## 使用说明
-
+**快速使用：**
 ```bash
-# 安装依赖
+cd thesis-automation
+pip install pywin32 python-docx pyyaml anthropic
+export ANTHROPIC_API_KEY="sk-ant-..."
+python -m src.main --title "论文标题" --outline "1.绪论 2.相关技术 ..."
+```
+
+**测试：** `python -m pytest tests/ -v` — 28 tests, all passing
+
+详见：[README_THESIS.md](README_THESIS.md) | [开发日志](docs/DEVELOPMENT_LOG.md)
+
+---
+
+## 项目二：基于机器学习的网络入侵检测系统
+
+基于 CNN-LSTM 混合网络的入侵检测系统（NSL-KDD 数据集），毕业设计实践项目。
+
+**核心功能：**
+- Flask + Vue 前后端分离架构
+- CNN-LSTM 混合模型训练与评估
+- 可视化检测结果界面
+- 模型测试集准确率：92%+
+
+**快速使用：**
+```bash
 pip install -r requirements.txt
+python app.py          # 后端
+cd frontend && npm install && npm run serve   # 前端
+```
 
-# 启动后端
-python app.py
+---
 
-# 启动前端（需进入 frontend 目录）
-npm install
-npm run serve
+## 仓库信息
 
-#后续计划
-毕业后持续迭代，目标打磨为可开源的通用模板，帮助零基础开发者快速上手 AI 辅助全栈开发。
+- 所有代码均由 Claude Code AI 辅助生成
+- 开发方法论：Superpowers 插件体系（头脑风暴 → 设计文档 → 实现计划 → 子代理驱动开发）
+- Token 消耗：日均 150-250 万（开发高峰期）
 
-#致谢
-本项目开发过程中大量使用 Claude Code 进行代码生成、Bug 修复与架构优化。
+## 后续计划
+
+毕业后持续迭代，目标打磨为可开源通用模板，帮助零基础开发者快速上手 AI 辅助全栈开发与学术写作。
