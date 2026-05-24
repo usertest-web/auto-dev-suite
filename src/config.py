@@ -39,6 +39,8 @@ def load_config(path: str = "config.yaml") -> Config:
         raise FileNotFoundError(f"Config file not found: {path}")
     with open(path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
+    if data is None:
+        data = {}
     llm_data = data.get("llm", {})
     llm = LLMConfig(
         provider=llm_data.get("provider", "claude"),
