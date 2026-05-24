@@ -38,6 +38,7 @@ python -m src.main --title "论文标题" --outline "1.绪论 2.相关技术 ...
 
 **快速使用：**
 ```bash
+cd ids-graduation-project
 pip install -r requirements.txt
 python app.py          # 后端
 cd frontend && npm install && npm run serve   # 前端
