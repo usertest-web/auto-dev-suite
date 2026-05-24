@@ -127,7 +127,13 @@ def expand_outline(
 请只返回 JSON，不要包含其他解释文字。"""
 
     response = llm_client.complete(system=system, prompt=prompt, temperature=0.4)
-    data = json.loads(response.text)
+    try:
+        data = json.loads(response.text)
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"Failed to parse LLM response: {e}\n"
+            f"Response text: {response.text[:500]}"
+        )
     data["title"] = title
     data["total_word_count"] = config.get("total_word_count", 15000)
     return WritingPlan.from_dict(data)

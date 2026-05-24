@@ -1,5 +1,4 @@
 import json
-import pytest
 from unittest.mock import MagicMock
 from src.stage2_expander import expand_outline, WritingPlan, Chapter, Section
 
