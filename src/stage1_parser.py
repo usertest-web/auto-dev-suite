@@ -1,6 +1,5 @@
 # src/stage1_parser.py
 from dataclasses import dataclass, field
-from typing import Optional
 import json
 from docx import Document
 
@@ -60,16 +59,17 @@ def parse_template(template_path: str) -> ParsedTemplate:
                 style_info["font"] = style.font.name
             if style.font.size:
                 style_info["size_pt"] = style.font.size.pt
-            style_info["bold"] = style.font.bold
+            if style.font.bold is not None:
+                style_info["bold"] = style.font.bold
             if style.paragraph_format.alignment is not None:
                 style_info["alignment"] = style.paragraph_format.alignment
-            if style.paragraph_format.space_before:
+            if style.paragraph_format.space_before is not None:
                 style_info["space_before_pt"] = style.paragraph_format.space_before.pt
-            if style.paragraph_format.space_after:
+            if style.paragraph_format.space_after is not None:
                 style_info["space_after_pt"] = style.paragraph_format.space_after.pt
-            if style.paragraph_format.line_spacing:
+            if style.paragraph_format.line_spacing is not None:
                 style_info["line_spacing"] = style.paragraph_format.line_spacing
-            if style.paragraph_format.first_line_indent:
+            if style.paragraph_format.first_line_indent is not None:
                 style_info["first_indent_cm"] = round(style.paragraph_format.first_line_indent.cm, 2)
             raw_styles[style.name] = style_info
 
@@ -93,7 +93,7 @@ def parse_format_spec(spec_path: str, llm_client) -> dict:
     try:
         doc = Document(spec_path)
         spec_text = "\n".join(p.text for p in doc.paragraphs)
-    except Exception:
+    except ValueError:
         with open(spec_path, "r", encoding="utf-8") as f:
             spec_text = f.read()
 
@@ -120,7 +120,13 @@ def parse_format_spec(spec_path: str, llm_client) -> dict:
 请只返回 JSON，不要包含其他解释文字。"""
 
     response = llm_client.complete(system=system, prompt=prompt, temperature=0.1)
-    return json.loads(response.text)
+    try:
+        return json.loads(response.text)
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"Failed to parse LLM response as JSON: {e}\n"
+            f"Response text: {response.text[:500]}"
+        )
 
 
 def merge_config(template: ParsedTemplate, spec_rules: dict) -> dict:
