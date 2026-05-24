@@ -1,0 +1,12 @@
+# config.yaml
+mode: interactive           # auto | interactive | resume
+llm:
+  provider: claude          # claude | openai
+  model: claude-sonnet-4-6
+  api_key_env: ANTHROPIC_API_KEY
+academic_db:
+  cnki_proxy: null
+  fallback: semantic_scholar
+output_dir: ./output
+template_path: ./data/template.docx
+spec_path: ./data/format-spec.pdf
