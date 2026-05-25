@@ -1,6 +1,6 @@
 # auto-dev-suite
 
-全栈自动化开发套件 —— 支持脚手架生成、CI/CD 配置、多环境部署。
+全栈自动化开发套件 —— 学术论文自动化写作 Pipeline，支持脚手架生成、CI/CD 配置、多环境部署。
 
 ---
 
@@ -8,22 +8,15 @@
 
 | 层级 | 技术 | 用途 |
 |------|------|------|
-| 前端 | Vue 3 + Vite | IDS 入侵检测可视化面板 |
-| 后端 | Flask (Python) | REST API 服务 |
-| 机器学习 | PyTorch / CNN-LSTM | 网络入侵检测模型（NSL-KDD 数据集） |
 | 文档自动化 | python-docx / pywin32 COM | 学术论文自动排版输出 .docx |
 | LLM 编排 | Anthropic SDK / Claude API | 6 阶段 Pipeline 长链推理写作 |
+| 配置管理 | PyYAML | 全局配置与多环境切换 |
+| 文献检索 | Semantic Scholar API | 自动检索相关论文并生成参考文献 |
 
 ## 项目结构
 
 ```
 auto-dev-suite/
-├── ids-graduation-project/   # Flask + Vue + PyTorch 入侵检测系统
-│   ├── model.py              # CNN-LSTM 混合网络模型
-│   ├── train.py              # 模型训练脚本
-│   ├── web_app.py            # Flask 后端
-│   ├── window.py             # PyQt 桌面界面
-│   └── main.py               # 入口
 ├── src/                      # 学术论文自动化写作 Pipeline
 │   ├── stage1_parser.py      # 阶段1：模板解析
 │   ├── stage2_expander.py    # 阶段2：大纲细化
@@ -31,7 +24,9 @@ auto-dev-suite/
 │   ├── stage4_writer.py      # 阶段4：逐章撰写
 │   ├── stage5_composer.py    # 阶段5：Word 排版
 │   ├── stage6_verifier.py    # 阶段6：格式校验
-│   └── llm_client.py         # LLM API 客户端
+│   ├── pipeline.py           # Pipeline 编排器
+│   ├── llm_client.py         # LLM API 客户端
+│   └── word_com.py           # Word COM 操作封装
 ├── tests/                    # 单元测试（28 tests）
 ├── docs/                     # 开发文档与设计规范
 └── config.yaml               # 全局配置
@@ -64,16 +59,14 @@ auto-dev-suite/
 ## 快速开始
 
 ```bash
-# 学术论文自动写作
+git clone https://github.com/usertest-web/auto-dev-suite.git
 cd auto-dev-suite
 pip install pywin32 python-docx pyyaml anthropic
 export ANTHROPIC_API_KEY="sk-ant-..."
 python -m src.main --title "论文标题" --outline "1.绪论 2.相关技术 ..."
 
-# 入侵检测系统
-cd ids-graduation-project
-pip install -r requirements.txt
-python web_app.py
+# 运行测试
+python -m pytest tests/ -v
 ```
 
 ## 许可证
